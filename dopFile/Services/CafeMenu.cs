@@ -4,7 +4,7 @@ using Models;
 namespace Services
 {
     class CafeMenu : MenuItem
-    {
+    {   
         public CafeMenu(List<Drink> drinks, List<Dessert> desserts, List<Combo> combos)
         {
             foreach (var item in drinks)
@@ -30,6 +30,22 @@ namespace Services
             foreach (var item in ListMenu)
             {
                 Console.WriteLine($"{item.Name} цена:{item.BasePrice}");
+            }
+        }
+        public void PrintAllavailable()
+        {
+            foreach (var item in ListMenu)
+            {
+                if(item is Drink ax)
+                {
+                    if(ax.CheckIngredients(new IngredientStock()))
+                    {
+                        Console.WriteLine($"Доступно сейчас:{item.Name}");
+                    }
+                }else if(item is Dessert al)
+                {
+                    
+                }
             }
         }
     }

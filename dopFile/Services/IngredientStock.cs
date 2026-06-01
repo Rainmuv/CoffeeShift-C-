@@ -29,10 +29,11 @@ namespace Services
             { "чизкейк", 2 },
             { "брауни", 2 }
         };  
-        public bool HasEnough(string key)
+        public bool HasEnough(string key, int value)
         {
-           if(_stock.ContainsKey(key)) return true;
-           return false;
+            
+            if(_stock.ContainsKey(key) && _stock[key] >= value ) return true;
+            return false;
         }
         
     }   

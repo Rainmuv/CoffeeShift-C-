@@ -10,76 +10,85 @@ namespace Services
             a = bob;
         }
         public void Run()
-        {
+        {   
+                    Console.Clear();
+           
             bool status = true;
-            bool statusMenu = true;
             while(status)
-            {
-                if(statusMenu)
-                {
-                    Console.WriteLine("1. Показать меню кофейни");
-                    Console.WriteLine("2. Показать только доступные позиции");
-                    Console.WriteLine("3. Создать новый заказ");
-                    Console.WriteLine("4. Найти клиента");
-                    Console.WriteLine("5. Показать склад");
-                    Console.WriteLine("6. Пополнить склад");
-                    Console.WriteLine("7. Показать активные заказы");
-                    Console.WriteLine("8. Завершить или отменить заказ");
-                    Console.WriteLine("9. Показать отчёт смены");
-                    Console.WriteLine("10. Выход");
-                }
+            {   
+
+                  Console.WriteLine(
+                    "1. Показать меню кофейни\n" +
+                    "2. Показать только доступные позиции\n" +
+                    "3. Создать новый заказ\n" +
+                    "4. Найти клиента\n" +
+                    "5. Показать склад\n" +
+                    "6. Пополнить склад\n" +
+                    "7. Показать активные заказы\n" +
+                    "8. Завершить или отменить заказ\n" +
+                    "9. Показать отчёт смены\n" +
+                    "10. Выход"
+                );  
+
+                
+                    
+
                 var choice = Console.ReadLine();
 
                 switch(choice)
                 {
                     case "1": 
-                        Console.Clear();
+                        
                         a.PrintAll();
-                        Console.ReadKey();
                         break;
                     case "2": 
-                        Console.Clear();
-                        
-                        Console.ReadKey();
+
+                        a.PrintAllavailable();
+  
                         break;
                     case "3": 
-                        Console.Clear();
+
                         a.PrintAll();
-                        Console.ReadKey();
+
                         break;
                     case "4": 
-                        Console.Clear();
+
                         a.PrintAll();
-                        Console.ReadKey();
+
                         break;
                     case "5": 
-                        Console.Clear();
+
                         a.PrintAll();
-                        Console.ReadKey();
+
                         break;
                     case "6": 
-                        Console.Clear();
+
                         a.PrintAll();
-                        Console.ReadKey();
+
                         break;
                     case "7": 
-                        Console.Clear();
+
                         a.PrintAll();
-                        Console.ReadKey();
+
                         break;
                     case "8": 
-                        Console.Clear();
+
                         a.PrintAll();
-                        Console.ReadKey();
+
                         break;
                     case "9": 
-                        Console.Clear();
+
                         a.PrintAll();
-                        Console.ReadKey();
+
                         break;
                     case "10": status = false; break;
                 }
-                Console.Clear();
+
+                if(status) // чтобы не ждать при выходе
+                {
+                    Console.ReadKey();
+                    Console.Clear();
+                }
             }
         }
     }
