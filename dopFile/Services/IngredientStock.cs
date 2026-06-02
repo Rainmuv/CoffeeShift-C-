@@ -31,7 +31,6 @@ namespace Services
         };  
         public bool HasEnough(string key, int value)
         {
-            
             if(_stock.ContainsKey(key) && _stock[key] >= value ) return true;
             return false;
         }

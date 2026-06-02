@@ -44,6 +44,12 @@ namespace Services
                     }
                 }else if(item is Dessert al)
                 {
+                    if(al.CheckIngredients(new IngredientStock()))
+                    {
+                        Console.WriteLine($"Доступно сейчас:{item.Name}");
+                    }
+                } else if(item is Combo co)
+                {
                     
                 }
             }

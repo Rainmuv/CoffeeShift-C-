@@ -11,13 +11,10 @@ namespace Services
         }
         public void Run()
         {   
-                    Console.Clear();
-           
             bool status = true;
             while(status)
             {   
-
-                  Console.WriteLine(
+                Console.WriteLine(
                     "1. Показать меню кофейни\n" +
                     "2. Показать только доступные позиции\n" +
                     "3. Создать новый заказ\n" +
@@ -30,61 +27,40 @@ namespace Services
                     "10. Выход"
                 );  
 
-                
-                    
-
                 var choice = Console.ReadLine();
-
                 switch(choice)
                 {
                     case "1": 
-                        
                         a.PrintAll();
                         break;
                     case "2": 
-
                         a.PrintAllavailable();
-  
                         break;
                     case "3": 
-
                         a.PrintAll();
-
                         break;
                     case "4": 
-
                         a.PrintAll();
-
                         break;
                     case "5": 
-
                         a.PrintAll();
-
                         break;
                     case "6": 
-
                         a.PrintAll();
-
                         break;
                     case "7": 
-
                         a.PrintAll();
-
                         break;
                     case "8": 
-
                         a.PrintAll();
-
                         break;
                     case "9": 
-
                         a.PrintAll();
-
                         break;
                     case "10": status = false; break;
                 }
 
-                if(status) // чтобы не ждать при выходе
+                if(status)
                 {
                     Console.ReadKey();
                     Console.Clear();

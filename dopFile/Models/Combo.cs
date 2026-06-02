@@ -1,4 +1,5 @@
 using Abstractions;
+using Services;
 
 namespace Models
 {
@@ -17,6 +18,14 @@ namespace Models
                 BasePrice += item.BasePrice;
             }
             BasePrice -= BasePrice * Discount / 100;
+        }
+        public bool CheckIngredients(List<MenuItem> app)
+        {
+            foreach (var item in Items)
+            {
+                if(item.Equals(app)) return false;
+            }
+            return true;
         }
     }
 }
