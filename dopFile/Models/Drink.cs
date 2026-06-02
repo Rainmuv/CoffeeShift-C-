@@ -9,11 +9,6 @@ namespace Models
         public int Strength {get; set;}
         public bool CanBESugarFree = false;
         public Dictionary<string, int> Ingredients = new Dictionary<string, int>{};
-
-        public Drink()
-        {
-
-        }
         public bool CheckIngredients(IngredientStock app)
         {
             foreach (var item in Ingredients)

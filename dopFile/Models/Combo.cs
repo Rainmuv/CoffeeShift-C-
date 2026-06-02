@@ -19,11 +19,23 @@ namespace Models
             }
             BasePrice -= BasePrice * Discount / 100;
         }
-        public bool CheckIngredients(List<MenuItem> app)
+        public bool CheckIngredients(IngredientStock stock)
         {
             foreach (var item in Items)
             {
-                if(item.Equals(app)) return false;
+                if(item is Drink ax )
+                {
+                    if(!ax.CheckIngredients(new IngredientStock()))
+                    {   
+                        return false;
+                    }
+                } else if (item is Dessert al)
+                {
+                    if(!al.CheckIngredients(new IngredientStock()))
+                    {
+                        return false;
+                    }
+                }
             }
             return true;
         }

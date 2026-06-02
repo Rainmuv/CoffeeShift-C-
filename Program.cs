@@ -41,35 +41,26 @@ class Program
         var comboFast = new Combo(espresso, muffin, 8) { Name = "Быстрый заряд", Discount = 8,
             };
 
-        List<Drink> allDrink = new List<Drink>
+        List<MenuItem> allProducts = new List<MenuItem>
         {
             espresso,
             americano,
             cappuccino,
             latteVanilla,
-            rafCaramel
-        };
-        List<Dessert> allDessert  = new List<Dessert>
-        {
+            rafCaramel,
             croissant,
             muffin,
             cheesecake,
             brownie,
-        };
-        
-        List<Combo> allCombo = new List<Combo>
-        {
             comboMorning,
             comboSweet,
             comboFast
-        }; 
+        };
 
-        CafeMenu a = new CafeMenu(allDrink, allDessert, allCombo);
+
+        CafeMenu a = new CafeMenu(allProducts);
 
         var b = new CafeApplication(a);
         b.Run();
-        // var p = new Drink();
-        // var a = new IngredientStock();
-        // p.CheckIngredients(a._stock, a._minStock);
     }
 }   
