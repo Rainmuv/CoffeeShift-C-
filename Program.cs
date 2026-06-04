@@ -60,7 +60,7 @@ class Program
 
         CafeMenu a = new CafeMenu(allProducts);
 
-        var b = new CafeApplication(a);
+        var b = new CafeApplication(a, new IngredientStock());
         b.Run();
     }
 }   

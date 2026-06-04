@@ -4,10 +4,12 @@ namespace Services
 {
     class CafeApplication
     {   
-        CafeMenu a;
-        public CafeApplication(CafeMenu bob)
+        CafeMenu Cafemenu;
+        IngredientStock stock;
+        public CafeApplication(CafeMenu Cafemenu, IngredientStock stock)
         {
-            a = bob;
+            this.Cafemenu = Cafemenu;
+            this.stock = stock;
         }
         public void Run()
         {   
@@ -31,31 +33,31 @@ namespace Services
                 switch(choice)
                 {
                     case "1": 
-                        a.PrintAll();
+                        Cafemenu.PrintAll();
                         break;
                     case "2": 
-                        a.PrintAllavailable();
+                        Cafemenu.PrintAllavailable();
                         break;
                     case "3": 
-                        a.PrintAll();
+                        Cafemenu.PrintAll();
                         break;
                     case "4": 
-                        a.PrintAll();
+                        Cafemenu.PrintAll();
                         break;
                     case "5": 
-                        a.PrintAll();
+                        stock.InfoStock();
                         break;
                     case "6": 
-                        a.PrintAll();
+                        stock.DepossitStock();
                         break;
                     case "7": 
-                        a.PrintAll();
+                        Cafemenu.PrintAll();
                         break;
                     case "8": 
-                        a.PrintAll();
+                        Cafemenu.PrintAll();
                         break;
                     case "9": 
-                        a.PrintAll();
+                        Cafemenu.PrintAll();
                         break;
                     case "10": status = false; break;
                 }

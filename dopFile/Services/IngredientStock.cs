@@ -34,6 +34,35 @@ namespace Services
             if(_stock.ContainsKey(key) && _stock[key] >= value ) return true;
             return false;
         }
-        
+        public void InfoStock()
+        {
+            foreach (var item in _stock)
+            {   
+                Console.WriteLine($"{item.Key}:{item.Value}");
+            }
+        }
+        public void DepossitStock()
+        {   
+            Console.WriteLine("Введите чего хотите добавить: \r"); 
+            string? key = Console.ReadLine();
+            foreach (var item in _stock)
+            {
+                if(key == item.Key)
+                {
+                    Console.WriteLine("Сколько хотите внести? \r");
+                    var count = Console.ReadLine();
+                    if(int.TryParse(count, out int num))
+                    _stock[item.Key] += num;
+                    Console.WriteLine($"{key} добавлено: {num} штук, текущий:{item.Value} \r"); 
+                    Console.ReadKey();
+                    return;
+                }else
+                {
+                    Console.WriteLine("Не найдено, попробуйте еще раз \r");
+                    Console.ReadKey(); 
+                }
+            }
+            return;
+        }
     }   
 }
