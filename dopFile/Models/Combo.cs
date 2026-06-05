@@ -23,7 +23,7 @@ namespace Models
         {
             foreach (var item in Items)
             {
-                if(item is Drink ax )
+                if(item is Drink ax)
                 {
                     if(!ax.CheckIngredients(new IngredientStock()))
                     {   

@@ -53,8 +53,7 @@ namespace Services
                     var count = Console.ReadLine();
                     if(int.TryParse(count, out int num))
                     _stock[item.Key] += num;
-                    Console.WriteLine($"{key} добавлено: {num} штук, текущий:{item.Value} \r"); 
-                    Console.ReadKey();
+                    Console.WriteLine($"{key} добавлено: {num} штук, текущий:{_stock[item.Key]} \r"); 
                     return;
                 }else
                 {

@@ -41,6 +41,13 @@ class Program
         var comboFast = new Combo(espresso, muffin, 8) { Name = "Быстрый заряд", Discount = 8,
             };
 
+        var customers = new List<Customer>
+            {
+                new Customer("Анна", "New", 0),
+                new Customer("Максим", "Regular", 3),
+                new Customer("Ирина", "Vip", 8)
+            };
+
         List<MenuItem> allProducts = new List<MenuItem>
         {
             espresso,
@@ -60,7 +67,7 @@ class Program
 
         CafeMenu a = new CafeMenu(allProducts);
 
-        var b = new CafeApplication(a, new IngredientStock());
+        var b = new CafeApplication(a, new IngredientStock(), customers);
         b.Run();
     }
 }   

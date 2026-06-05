@@ -23,6 +23,7 @@ namespace Services
         }
         public void PrintAllavailable()
         {   
+            int count = 1;
             Console.WriteLine($"Доступно сейчас: \r");
             foreach (var item in ListMenu)
             {
@@ -30,19 +31,19 @@ namespace Services
                 {
                     if(ax.CheckIngredients(new IngredientStock()))
                     {
-                        Console.WriteLine($"{item.Name}");
+                        Console.WriteLine($"{count++}. {item.Name}");
                     }
                 }else if(item is Dessert al)
                 {
                     if(al.CheckIngredients(new IngredientStock()))
                     {
-                        Console.WriteLine($"{item.Name}");
+                        Console.WriteLine($"{count++}. {item.Name}");
                     }
                 } else if(item is Combo co)
                 {
                     if(co.CheckIngredients(new IngredientStock()))
                     {
-                        Console.WriteLine($"{item.Name}");
+                        Console.WriteLine($"{count++}. {item.Name}");
                     }
                 }
             }

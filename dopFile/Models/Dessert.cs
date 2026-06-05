@@ -25,7 +25,6 @@ namespace Models
             foreach (var item in Ingredients)
             {
                 if(!app.HasEnough(item.Key, item.Value)) return false;
-
             }
             return true;
         }
