@@ -7,6 +7,7 @@ namespace Services
         public CafeMenu Cafemenu;
         public IngredientStock stock;
         public List<Customer> Customers = new List<Customer> {};
+        public List<Order> activeOrder = new List<Order> {};
         public CafeApplication(CafeMenu Cafemenu, IngredientStock stock, List<Customer> customers)
         {
             this.Cafemenu = Cafemenu;
@@ -55,10 +56,18 @@ namespace Services
                                 if(item.Name == choiceClient)
                                 {   
                                     var or = new Order(item.Name);
-                                    or.DeletedOrAdd(Cafemenu);
-                                    item.GetCountOrder(or);
-                                    statusClient = false;
-                                    statusCreateOrder = false;
+                                    if(or.DeletedOrAdd(Cafemenu))
+                                    {
+                                        item.GetCountOrder(or);
+                                        activeOrder.Add(or);
+                                        statusClient = false;
+                                        statusCreateOrder = false;
+                                    } else
+                                    {
+                                        Console.WriteLine("Создание заказа было отмененно");
+                                        Console.ReadKey();
+                                    }
+                                    
                                     break;
                                 }
                             }
@@ -90,10 +99,10 @@ namespace Services
                                     ;
                                     break;
                                     case "2": 
-                                        
+                                        statusCreateOrder = false;
                                     ;
                                     break;
-                                    default: Console.WriteLine("Error"); break;
+                                    default: Console.WriteLine("Error"); statusCreateOrder = false;; break;
                                 }   
                             }
                         }
@@ -109,7 +118,16 @@ namespace Services
                         stock.DepossitStock();
                         break;
                     case "7": 
-
+                        if(activeOrder.Count != 0)
+                        {
+                            foreach (var item in activeOrder)
+                            {
+                                Console.WriteLine($"{item.NumberOrder}, {item.Name}");
+                            }
+                        } else
+                        {
+                            Console.WriteLine("Активный ордеров нету");
+                        }
                         break;
                     case "8": 
                         Cafemenu.PrintAll();

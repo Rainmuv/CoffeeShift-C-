@@ -3,7 +3,9 @@ using Abstractions;
 namespace Services
 {
     class Order {
-        public static int NumberOrder {get; set;}
+        public static int NumberOrderStatic {get; set;}
+        public int NumberOrder {get; set;}
+
         public string Name {get; set;}= "";
         public List<MenuItem> List = new List<MenuItem> {};
         public string Status {get; set;} = "";
@@ -12,72 +14,106 @@ namespace Services
         public decimal ResultPrice {get; set;}
         public Order(string Name)
         {
-            NumberOrder++;
+            NumberOrderStatic++;
+            NumberOrder = NumberOrderStatic;
             this.Name = Name;
         }
-        public void DeletedOrAdd(CafeMenu cafeMenu)
+        public bool DeletedOrAdd(CafeMenu cafeMenu)
         {   
-            Console.WriteLine("Добавить или удалить заказ? \n 1.Добавить \n 2.Удалить");
-            var choice = Console.ReadLine();
-            switch (choice)
+            cafeMenu.PrintAllavailable();
+            bool whileStatus = true;
+            while(whileStatus)
             {
-                case "1":
-                    bool statusAdd = true;
-                    cafeMenu.PrintAllavailable();
-                    Console.WriteLine("Что бы добавить выберете номер продукта, для отмены выеберете 0");
-                    while (statusAdd)
-                    {
-                        var choiceTwo = Console.ReadLine();
-                        if(int.TryParse(choiceTwo, out int num))
-                        {
-                            if(num <= cafeMenu.ListMenu.Count && num != 0)
-                            {
-                                List.Add(cafeMenu.ListMenu[num - 1]);
-                                Console.WriteLine("Добавлено! если хотите закончить введите 0");
-                            }else 
-                            {
-                                statusAdd = false;
-                            }
-                        } else
-                        {
-                            Console.WriteLine("Error");
-                        }
-                    }
-                    ;
-                    break;
-                case "2": 
-                    bool status = true;
-                    int numOrder = 1;
-                    if(List.Count != 0)
-                    {   
-                        foreach (var item in List)
-                        {
-                            Console.WriteLine($"{numOrder++}. {item.Name}");
-                        }
-                        Console.WriteLine("Выберете номер заказа для удаления, для отмены выеберете 0");
-                        while (status)
-                        {
+                Console.WriteLine("1. Добавить 2. Удалить 3. Подтвердить 4. Отменить");
+                var choice = Console.ReadLine();
+                bool statusAdd = true;
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Что бы добавить, выберете номер, для отмены выеберете 0");
+                        while (statusAdd)
+                        {   
                             var choiceTwo = Console.ReadLine();
                             if(int.TryParse(choiceTwo, out int num))
                             {
-                                if(num <= List.Count && num != 0)
-                                {
-                                    List.Remove(List[num - 1]);
-                                    Console.WriteLine("Удалено! если хотите закончить введите 0");
-                                }else 
-                                {
-                                    status = false;
+                                if(num <= cafeMenu.ListMenu.Count && num != 0)
+                                {   
+                                    int count = 1;
+                                    FullPrice += cafeMenu.ListMenu[num - 1].BasePrice;
+                                    List.Add(cafeMenu.ListMenu[num - 1]);
+                                    Console.WriteLine("Добавлено! выйти: 0");
+                                    foreach (var item in List)
+                                    {
+                                        Console.WriteLine($"{count++}. {item.Name}");
+                                    } 
+                                    Console.WriteLine($"Сумма для оплаты: {FullPrice}");
+                                }else if(num == 0)
+                                {   
+                                    statusAdd = false;
                                 }
                             } else
                             {
                                 Console.WriteLine("Error");
                             }
                         }
-                    }
-                    ;
-                    break;
+                        ;
+                        break;
+                    case "2": 
+                        bool status = true;
+                        int numOrder = 1;
+                        if(List.Count != 0)
+                        {   
+                            foreach (var item in List)
+                            {
+                                Console.WriteLine($"{numOrder++}. {item.Name}");
+                            }
+                            Console.WriteLine($"Сумма для оплаты: {FullPrice}");
+                            Console.WriteLine("Выберете номер заказа для удаления, для отмены выеберете 0");
+                            while (status)
+                            {
+                                var choiceTwo = Console.ReadLine();
+                                if(int.TryParse(choiceTwo, out int num))
+                                {
+                                    if(num <= List.Count && num != 0)
+                                    {
+                                        int count = 1;
+                                        FullPrice -= List[num - 1].BasePrice;
+                                        List.Remove(List[num - 1]);
+                                        Console.WriteLine("Удалено! выйти: 0");
+                                        foreach (var item in List)
+                                        {
+                                            Console.WriteLine($"{count++}. {item.Name}");
+                                        } 
+                                        Console.WriteLine($"Сумма для оплаты: {FullPrice}");
+                                    }else if(num == 0)
+                                    {
+                                        status = false;
+                                    }
+                                } else
+                                {
+                                    Console.WriteLine("Error");
+                                }
+                            }
+                        } else
+                        {
+                            Console.WriteLine("Список пуст");
+                        }
+                        ;
+                        break;
+                    case "3" : 
+                        foreach (var item in List)
+                        {
+                            
+                        }
+                        return true;
+                    ; 
+                    case "4" :
+                        whileStatus = false
+                     ; break;
+                    
+                }
             }
-            return ;
+            return false;
         }
         public void InfoAboutAllOrder()
         {

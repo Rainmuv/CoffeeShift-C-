@@ -16,7 +16,7 @@ namespace Services
 
         public void GetCountOrder(Order order)
         {
-            
+            CountOrder.Add(order.NumberOrder, order);
         }
         public void GetBonus()
         {
