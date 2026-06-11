@@ -56,7 +56,7 @@ namespace Services
                                 if(item.Name == choiceClient)
                                 {   
                                     var or = new Order(item.Name);
-                                    if(or.DeletedOrAdd(Cafemenu))
+                                    if(or.DeletedOrAdd(Cafemenu, stock))
                                     {
                                         item.GetCountOrder(or);
                                         activeOrder.Add(or);
@@ -66,8 +66,9 @@ namespace Services
                                     {
                                         Console.WriteLine("Создание заказа было отмененно");
                                         Console.ReadKey();
+                                        statusClient = false;
+                                        statusCreateOrder = false;
                                     }
-                                    
                                     break;
                                 }
                             }
@@ -109,7 +110,27 @@ namespace Services
                         
                         break;
                     case "4": 
-                        Cafemenu.PrintAll();
+                        bool statusInfo = true;
+                        bool CheckClient = true;
+                        while (statusInfo)
+                        {
+                            Console.WriteLine("Введите имя клиента");
+                            var choiceClientInfo = Console.ReadLine();
+                            foreach (var item in Customers)
+                            {
+                                if(item.Name == choiceClientInfo)
+                                {   
+                                    item.GetInfoCustomer();
+                                    statusInfo = false;
+                                    CheckClient = false;
+                                }
+                            }
+                            if(CheckClient)
+                            {
+                                Console.WriteLine("Не найдено");
+                            }
+                        }
+                        ;
                         break;
                     case "5": 
                         stock.InfoStock();

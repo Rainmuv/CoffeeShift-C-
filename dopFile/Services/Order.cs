@@ -18,7 +18,7 @@ namespace Services
             NumberOrder = NumberOrderStatic;
             this.Name = Name;
         }
-        public bool DeletedOrAdd(CafeMenu cafeMenu)
+        public bool DeletedOrAdd(CafeMenu cafeMenu, IngredientStock stock)
         {   
             cafeMenu.PrintAllavailable();
             bool whileStatus = true;
@@ -101,11 +101,12 @@ namespace Services
                         ;
                         break;
                     case "3" : 
-                        foreach (var item in List)
+                        if(stock.WriteOff(List))
                         {
-                            
+                            Console.WriteLine("ZAEBIS");
+                            return true;
                         }
-                        return true;
+                        break;
                     ; 
                     case "4" :
                         whileStatus = false

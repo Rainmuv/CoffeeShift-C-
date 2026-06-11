@@ -32,8 +32,12 @@ namespace Services
         } 
         public void GetInfoCustomer()
         {
-            
+            Console.WriteLine($"Имя: {Name}");
+            Console.WriteLine($"Количество заказов: {CountOrder.Count}");
+            Console.WriteLine($"Количество бонусов: {BonusCount}");
+            Console.WriteLine($"Лояльность: {Loyalte}");
+            Console.WriteLine($"Любимый товар: {FavoryteCategory}");
         }
-
+        
     }
 }

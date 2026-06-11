@@ -1,10 +1,13 @@
+using Abstractions;
+using Models;
+
 namespace Services
 {
     class IngredientStock 
     {
         public Dictionary<string, int> _stock = new Dictionary<string, int>
         {
-            { "кофе", 30 },
+            { "кофе", 3 },
             { "молоко", 25 },
             { "вода", 50 },
             { "сахар", 40 },
@@ -31,7 +34,7 @@ namespace Services
         };  
         public bool HasEnough(string key, int value)
         {
-            if(_stock.ContainsKey(key) && _stock[key] >= value ) return true;
+            if(_stock.ContainsKey(key) && _stock[key] > value ) return true;
             return false;
         }
         public void InfoStock()
@@ -62,6 +65,80 @@ namespace Services
                 }
             }
             return;
+        }
+        public bool WriteOff(List<MenuItem> List)
+        {
+            Dictionary<string, int> allIngredients = new Dictionary<string, int> {};
+            foreach (var products in List)
+            {
+                if(products is Drink ax)
+                {
+                    if(ax.CheckIngredients(new IngredientStock()))
+                    {
+                        foreach (var item in ax.Ingredients)
+                        {   
+                            if (allIngredients.ContainsKey(item.Key)) {
+                                allIngredients[item.Key] += item.Value; 
+                            } else {
+                                allIngredients[item.Key] = item.Value;  
+                            }
+                        }
+                    }
+                }else if(products is Dessert al)
+                {
+                    if(al.CheckIngredients(new IngredientStock()))
+                    {
+                        foreach (var item in al.Ingredients)
+                        {
+                            if (allIngredients.ContainsKey(item.Key)) {
+                                allIngredients[item.Key] += item.Value; 
+                            } else {
+                                allIngredients[item.Key] = item.Value;  
+                            }
+                        }
+                    }
+                } else if(products is Combo co)
+                {
+                    if(co.CheckIngredients(new IngredientStock()))
+                    {
+                        foreach (var items in co.Items)
+                        {
+                            if(items is Drink axItem)
+                            {
+                                if(axItem.CheckIngredients(new IngredientStock()))
+                                {
+                                    foreach (var item in axItem.Ingredients)
+                                    {
+                                        if (allIngredients.ContainsKey(item.Key)) {
+                                            allIngredients[item.Key] += item.Value; 
+                                        } else {
+                                            allIngredients[item.Key] = item.Value;  
+                                        }
+                                    }
+                                }
+                            }else if(items is Dessert alItem)
+                            {
+                                if(alItem.CheckIngredients(new IngredientStock()))
+                                {
+                                    foreach (var item in alItem.Ingredients)
+                                    {
+                                        if (allIngredients.ContainsKey(item.Key)) {
+                                            allIngredients[item.Key] += item.Value; 
+                                        } else {
+                                            allIngredients[item.Key] = item.Value;  
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (var item in allIngredients)
+            {
+                return HasEnough(item.Key, item.Value);
+            }
+            return false;
         }
     }   
 }
