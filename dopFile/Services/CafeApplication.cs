@@ -58,14 +58,12 @@ namespace Services
                                     var or = new Order(item.Name);
                                     if(or.DeletedOrAdd(Cafemenu, stock))
                                     {
-                                        item.GetCountOrder(or);
                                         activeOrder.Add(or);
                                         statusClient = false;
                                         statusCreateOrder = false;
                                     } else
                                     {
                                         Console.WriteLine("Создание заказа было отмененно");
-                                        Console.ReadKey();
                                         statusClient = false;
                                         statusCreateOrder = false;
                                     }
@@ -151,7 +149,54 @@ namespace Services
                         }
                         break;
                     case "8": 
-                        Cafemenu.PrintAll();
+                        bool statusCompleteOrRejectOrder = true;
+                        while(statusCompleteOrRejectOrder)
+                        {
+                            Console.WriteLine("Выберете ордер для Подтверждения/Отмены");
+                            if(activeOrder.Count != 0)
+                            {
+                                foreach (var item in activeOrder)
+                                {
+                                    Console.WriteLine($"{item.NumberOrder}, {item.Name}");
+                                }
+                                var choiceWhichCompleteOrReject = Console.ReadLine();
+                                if(int.TryParse(choiceWhichCompleteOrReject, out int num))
+                                {
+                                    if(num <= activeOrder.Count)
+                                    {   
+                                        Console.WriteLine("Выберете \n 1.Оплата \n 2.Отмена \n 0.Выйти");
+                                        var choiceCompleteOrReject = Console.ReadLine();
+                                        switch (choiceCompleteOrReject)
+                                        {
+                                            case "1": 
+                                                
+                                                foreach (var item in Customers)
+                                                {   
+                                                    if(item.Name == activeOrder[num - 1].Name)
+                                                    {
+                                                        Console.WriteLine("Done 3");
+                                                        item.GetCountOrder(activeOrder[num - 1]);
+                                                    }
+                                                }
+                                                activeOrder.RemoveAt(num - 1);
+                                                statusCompleteOrRejectOrder = false;
+                                                Console.WriteLine("Ордер оплачен");
+                                                ; break;
+                                            case "2": 
+                                                activeOrder.RemoveAt(num - 1);
+                                                statusCompleteOrRejectOrder = false;
+                                                Console.WriteLine("Ордер отменен");
+                                                ; break;
+                                            case "0": ; break;
+                                            default: Console.WriteLine(""); break;
+                                        }
+                                    }
+                                }
+                            } else
+                            {
+                                Console.WriteLine("Активный ордеров нету");
+                            } 
+                        }
                         break;
                     case "9": 
                         Cafemenu.PrintAll();

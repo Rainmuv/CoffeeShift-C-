@@ -5,7 +5,6 @@ namespace Services
     class Order {
         public static int NumberOrderStatic {get; set;}
         public int NumberOrder {get; set;}
-
         public string Name {get; set;}= "";
         public List<MenuItem> List = new List<MenuItem> {};
         public string Status {get; set;} = "";
@@ -103,10 +102,12 @@ namespace Services
                     case "3" : 
                         if(stock.WriteOff(List))
                         {
-                            Console.WriteLine("ZAEBIS");
+                            Console.WriteLine("Заказ оформлен");
                             return true;
+                        } else
+                        {
+                            return false;
                         }
-                        break;
                     ; 
                     case "4" :
                         whileStatus = false
