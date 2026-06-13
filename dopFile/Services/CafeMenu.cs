@@ -3,7 +3,7 @@ using Models;
 
 namespace Services
 {
-    class CafeMenu : MenuItem
+    class CafeMenu
     {   
         public CafeMenu(List<MenuItem> allProducts)
         {
@@ -21,7 +21,7 @@ namespace Services
                 Console.WriteLine($"{item.Name} цена:{item.BasePrice}");
             }
         }
-        public void PrintAllavailable()
+        public void PrintAllavailable(IngredientStock stock)
         {   
             int count = 1;
             Console.WriteLine($"Доступно сейчас: \r");
@@ -29,19 +29,19 @@ namespace Services
             {
                 if(item is Drink ax)
                 {
-                    if(ax.CheckIngredients(new IngredientStock()))
+                    if(ax.CheckIngredients(stock))
                     {
                         Console.WriteLine($"{count++}. {item.Name}");
                     }
                 }else if(item is Dessert al)
                 {
-                    if(al.CheckIngredients(new IngredientStock()))
+                    if(al.CheckIngredients(stock))
                     {
                         Console.WriteLine($"{count++}. {item.Name}");
                     }
                 } else if(item is Combo co)
                 {
-                    if(co.CheckIngredients(new IngredientStock()))
+                    if(co.CheckIngredients(stock))
                     {
                         Console.WriteLine($"{count++}. {item.Name}");
                     }

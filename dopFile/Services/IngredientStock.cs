@@ -34,7 +34,7 @@ namespace Services
         };  
         public bool HasEnough(string key, int value)
         {
-            if(_stock.ContainsKey(key) && _stock[key] > value ) return true;
+            if(_stock.ContainsKey(key) && _stock[key] >= value ) return true;
             return false;
         }
         public void InfoStock()
@@ -48,32 +48,31 @@ namespace Services
         {   
             Console.WriteLine("Введите чего хотите добавить: \r"); 
             string? key = Console.ReadLine();
-            foreach (var item in _stock)
+            if(key != null)
             {
-                if(key == item.Key)
+                if(_stock.ContainsKey(key))
                 {
                     Console.WriteLine("Сколько хотите внести? \r");
                     var count = Console.ReadLine();
                     if(int.TryParse(count, out int num))
-                    _stock[item.Key] += num;
-                    Console.WriteLine($"{key} добавлено: {num} штук, текущий:{_stock[item.Key]} \r"); 
+                    _stock[key] += num;
+                    Console.WriteLine($"{key} добавлено: {num} штук, текущий:{_stock[key]} \r"); 
                     return;
-                }else
+                } else
                 {
                     Console.WriteLine("Не найдено, попробуйте еще раз \r");
-                    Console.ReadKey(); 
                 }
             }
             return;
         }
-        public bool WriteOff(List<MenuItem> List)
+        public bool WriteOff(List<MenuItem> List, IngredientStock stock)
         {
             Dictionary<string, int> allIngredients = new Dictionary<string, int> {};
             foreach (var products in List)
             {
                 if(products is Drink ax)
                 {
-                    if(ax.CheckIngredients(new IngredientStock()))
+                    if(ax.CheckIngredients(stock))
                     {
                         foreach (var item in ax.Ingredients)
                         {   
@@ -86,7 +85,7 @@ namespace Services
                     }
                 }else if(products is Dessert al)
                 {
-                    if(al.CheckIngredients(new IngredientStock()))
+                    if(al.CheckIngredients(stock))
                     {
                         foreach (var item in al.Ingredients)
                         {
@@ -99,13 +98,13 @@ namespace Services
                     }
                 } else if(products is Combo co)
                 {
-                    if(co.CheckIngredients(new IngredientStock()))
+                    if(co.CheckIngredients(stock))
                     {
                         foreach (var items in co.Items)
                         {
                             if(items is Drink axItem)
                             {
-                                if(axItem.CheckIngredients(new IngredientStock()))
+                                if(axItem.CheckIngredients(stock))
                                 {
                                     foreach (var item in axItem.Ingredients)
                                     {
@@ -118,7 +117,7 @@ namespace Services
                                 }
                             }else if(items is Dessert alItem)
                             {
-                                if(alItem.CheckIngredients(new IngredientStock()))
+                                if(alItem.CheckIngredients(stock))
                                 {
                                     foreach (var item in alItem.Ingredients)
                                     {
@@ -133,10 +132,14 @@ namespace Services
                         }
                     }
                 }
-            }
+            } 
             foreach (var item in allIngredients)
-            {
-                return HasEnough(item.Key, item.Value);
+            {   
+                if(HasEnough(item.Key, item.Value))
+                {
+                    _stock[item.Key] -= item.Value;
+                    return true;
+                }
             }
             return false;
         }

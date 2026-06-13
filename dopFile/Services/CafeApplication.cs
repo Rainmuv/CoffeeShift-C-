@@ -42,7 +42,7 @@ namespace Services
                         Cafemenu.PrintAll();
                         break;
                     case "2": 
-                        Cafemenu.PrintAllavailable();
+                        Cafemenu.PrintAllavailable(stock);
                         break;
                     case "3": 
                         bool statusCreateOrder = true;
@@ -105,7 +105,6 @@ namespace Services
                                 }   
                             }
                         }
-                        
                         break;
                     case "4": 
                         bool statusInfo = true;
@@ -173,14 +172,19 @@ namespace Services
                                                 foreach (var item in Customers)
                                                 {   
                                                     if(item.Name == activeOrder[num - 1].Name)
-                                                    {
-                                                        Console.WriteLine("Done 3");
+                                                    {   
+                                                        if(stock.WriteOff(activeOrder[num - 1].List, stock))
+                                                        {
+                                                            statusCompleteOrRejectOrder = false;
+                                                            Console.WriteLine("Не хватает ингредиентов на складе");
+                                                            break;
+                                                        }
                                                         item.GetCountOrder(activeOrder[num - 1]);
+                                                        activeOrder.RemoveAt(num - 1);
+                                                        statusCompleteOrRejectOrder = false;
+                                                        Console.WriteLine("Ордер оплачен");
                                                     }
                                                 }
-                                                activeOrder.RemoveAt(num - 1);
-                                                statusCompleteOrRejectOrder = false;
-                                                Console.WriteLine("Ордер оплачен");
                                                 ; break;
                                             case "2": 
                                                 activeOrder.RemoveAt(num - 1);
@@ -193,7 +197,8 @@ namespace Services
                                     }
                                 }
                             } else
-                            {
+                            {   
+                                statusCompleteOrRejectOrder = false;
                                 Console.WriteLine("Активный ордеров нету");
                             } 
                         }
@@ -204,7 +209,6 @@ namespace Services
                     case "10": status = false; break;
                     default: Console.WriteLine("Error"); break;
                 }
-
                 if(status)
                 {
                     Console.ReadKey();

@@ -19,7 +19,7 @@ namespace Services
         }
         public bool DeletedOrAdd(CafeMenu cafeMenu, IngredientStock stock)
         {   
-            cafeMenu.PrintAllavailable();
+            cafeMenu.PrintAllavailable(stock);
             bool whileStatus = true;
             while(whileStatus)
             {
@@ -100,15 +100,9 @@ namespace Services
                         ;
                         break;
                     case "3" : 
-                        if(stock.WriteOff(List))
-                        {
-                            Console.WriteLine("Заказ оформлен");
-                            return true;
-                        } else
-                        {
-                            return false;
-                        }
-                    ; 
+                        Console.WriteLine("Заказ оформлен");
+                        return true;
+                    ;
                     case "4" :
                         whileStatus = false
                      ; break;
