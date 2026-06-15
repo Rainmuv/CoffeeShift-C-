@@ -64,10 +64,10 @@ class Program
             comboFast
         };
 
-
+        ShiftReport report = new ShiftReport();
         CafeMenu a = new CafeMenu(allProducts);
 
-        var b = new CafeApplication(a, new IngredientStock(), customers);
+        var b = new CafeApplication(a, new IngredientStock(), customers, report);
         b.Run();
     }
 }   

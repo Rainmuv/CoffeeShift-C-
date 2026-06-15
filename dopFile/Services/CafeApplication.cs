@@ -7,11 +7,15 @@ namespace Services
         public CafeMenu Cafemenu;
         public IngredientStock stock;
         public List<Customer> Customers = new List<Customer> {};
+        public List<Customer> newCustomers = new List<Customer> {};
         public List<Order> activeOrder = new List<Order> {};
-        public CafeApplication(CafeMenu Cafemenu, IngredientStock stock, List<Customer> customers)
+        public decimal allMoney = 0;
+        public ShiftReport report;
+        public CafeApplication(CafeMenu Cafemenu, IngredientStock stock, List<Customer> customers, ShiftReport report)
         {
             this.Cafemenu = Cafemenu;
             this.stock = stock;
+            this.report = report;
             foreach (var item in customers)
             {
                 this.Customers.Add(item);
@@ -125,6 +129,8 @@ namespace Services
                             if(CheckClient)
                             {
                                 Console.WriteLine("Не найдено");
+                                statusInfo = false;
+                                CheckClient = false;
                             }
                         }
                         ;
@@ -151,12 +157,13 @@ namespace Services
                         bool statusCompleteOrRejectOrder = true;
                         while(statusCompleteOrRejectOrder)
                         {
-                            Console.WriteLine("Выберете ордер для Подтверждения/Отмены");
+                            int count = 1;
+                            Console.WriteLine("Введите номер для Подтверждения/Отмены, Выйти: 0");
                             if(activeOrder.Count != 0)
-                            {
+                            {   
                                 foreach (var item in activeOrder)
                                 {
-                                    Console.WriteLine($"{item.NumberOrder}, {item.Name}");
+                                    Console.WriteLine($"{count++}: {item.Name}");
                                 }
                                 var choiceWhichCompleteOrReject = Console.ReadLine();
                                 if(int.TryParse(choiceWhichCompleteOrReject, out int num))
@@ -168,30 +175,42 @@ namespace Services
                                         switch (choiceCompleteOrReject)
                                         {
                                             case "1": 
-                                                
                                                 foreach (var item in Customers)
-                                                {   
-                                                    if(item.Name == activeOrder[num - 1].Name)
-                                                    {   
-                                                        if(stock.WriteOff(activeOrder[num - 1].List, stock))
-                                                        {
+                                                {    
+                                                    if (activeOrder.Count != 0)
+                                                    {
+                                                        if(item.Name == activeOrder[num - 1].Name)
+                                                        {   
+                                                            if(!stock.WriteOff(activeOrder[num - 1].List, stock))
+                                                            {
+                                                                statusCompleteOrRejectOrder = false;
+                                                                Console.WriteLine("Не хватает ингредиентов на складе");
+                                                                break;
+                                                            }
+                                                            Console.WriteLine(activeOrder[num - 1].Name);
+                                                            allMoney += activeOrder[num - 1].FullPrice;
+                                                            item.GetCountOrder(activeOrder[num - 1]);
+                                                            report.CompleteOrders.Add(activeOrder[num - 1]);
+                                                            activeOrder.RemoveAt(num - 1);
                                                             statusCompleteOrRejectOrder = false;
-                                                            Console.WriteLine("Не хватает ингредиентов на складе");
-                                                            break;
+                                                            Console.WriteLine("Ордер оплачен");
                                                         }
-                                                        item.GetCountOrder(activeOrder[num - 1]);
-                                                        activeOrder.RemoveAt(num - 1);
+                                                    } else
+                                                    {
                                                         statusCompleteOrRejectOrder = false;
-                                                        Console.WriteLine("Ордер оплачен");
                                                     }
+                                                    
                                                 }
                                                 ; break;
                                             case "2": 
+                                                report.RejectOrders.Add(activeOrder[num - 1]);
                                                 activeOrder.RemoveAt(num - 1);
                                                 statusCompleteOrRejectOrder = false;
                                                 Console.WriteLine("Ордер отменен");
                                                 ; break;
-                                            case "0": ; break;
+                                            case "0": 
+                                            statusCompleteOrRejectOrder = false;
+                                            ; break;
                                             default: Console.WriteLine(""); break;
                                         }
                                     }
@@ -204,7 +223,7 @@ namespace Services
                         }
                         break;
                     case "9": 
-                        Cafemenu.PrintAll();
+                        report.MinReport(newCustomers, allMoney);
                         break;
                     case "10": status = false; break;
                     default: Console.WriteLine("Error"); break;

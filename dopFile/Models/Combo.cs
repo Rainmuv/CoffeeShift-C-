@@ -25,13 +25,13 @@ namespace Models
             {
                 if(item is Drink ax)
                 {
-                    if(!ax.CheckIngredients(new IngredientStock()))
+                    if(!ax.CheckIngredients(stock))
                     {   
                         return false;
                     }
                 } else if (item is Dessert al)
                 {
-                    if(!al.CheckIngredients(new IngredientStock()))
+                    if(!al.CheckIngredients(stock))
                     {
                         return false;
                     }

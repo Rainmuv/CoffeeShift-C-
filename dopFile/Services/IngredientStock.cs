@@ -7,7 +7,7 @@ namespace Services
     {
         public Dictionary<string, int> _stock = new Dictionary<string, int>
         {
-            { "кофе", 3 },
+            { "кофе", 30 },
             { "молоко", 25 },
             { "вода", 50 },
             { "сахар", 40 },
